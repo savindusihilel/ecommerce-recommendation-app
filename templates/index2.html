@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Hybrid Recommendation System</h1>
+        
+        <!-- Error message display -->
+        {% if error_message %}
+            <div class="error">{{ error_message }}</div>
+        {% endif %}
+        
+        <!-- Recommendation form -->
+        <form method="POST" action="/">
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" required>
+
+            <label for="target_user_id">User ID:</label>
+            <input type="number" id="target_user_id" name="target_user_id" required>
+
+            <label for="top_count">Number of Recommendations:</label>
+            <input type="number" id="top_count" name="top_count" required>
+
+            <button type="submit">Get Recommendations</button>
+        </form>
+        
+        <!-- Display recommendations -->
+        {% if recommendations is not none and not recommendations.empty %}
+            <h2>Recommendations</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Reviews</th>
+                        <th>Rating</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in recommendations.iterrows() %}
+                        <tr>
+                            <td>{{ row['Name'] }}</td>
+                            <td>{{ row['Brand'] }}</td>
+                            <td>{{ row['Reviews'] }}</td>
+                            <td>{{ row['Rating'] }}</td>
+                            <td><img src="{{ row['ImgUrl'] }}" alt="{{ row['Name'] }}" width="100"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No recommendations available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
