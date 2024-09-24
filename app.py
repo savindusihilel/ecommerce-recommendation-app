@@ -72,7 +72,7 @@ def content_based_recommendations(train_data, item_name, top_n=10):
     recommended_item_indices = [x[0] for x in top_similar_items]
 
     # Get the details of the top similar items
-    recommended_items_details = train_data.iloc[recommended_item_indices][['Name', 'ReviewCount', 'Brand', 'ImageURL', 'Rating']]
+    recommended_items_details = train_data.iloc[recommended_item_indices][['Name', 'Reviews', 'Brand', 'ImgUrl', 'Rating']]
 
     return recommended_items_details
 # routes===============================================================================
@@ -100,7 +100,9 @@ def index():
 
 @app.route("/main")
 def main():
-    return render_template('main.html')
+    # Initialize an empty DataFrame for content_based_rec
+    content_based_rec = pd.DataFrame()
+    return render_template('main.html', content_based_rec=content_based_rec)
 
 # routes
 @app.route("/index")
